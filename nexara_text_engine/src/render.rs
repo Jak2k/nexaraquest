@@ -12,7 +12,7 @@ fn typewriter(text: &str, max_delay: u64) {
     }
 }
 
-pub fn render(scene: &crate::scene::Scene) {
+pub fn render<T>(scene: &crate::scene::Scene<T>) {
     // ASCII art how the screen should look like
     /*
 
@@ -67,16 +67,31 @@ pub fn render(scene: &crate::scene::Scene) {
 
     execute!(std::io::stdout(), Print("\n")).unwrap();
 
+    let mut next_option = 'A';
+
     for option in &scene.options {
         execute!(
             std::io::stdout(),
-            Print("\n"),
+            Print("\n("),
+            Print(next_option),
+            Print(") "),
             SetForegroundColor(Color::Blue),
         )
         .unwrap();
+
+        next_option = (next_option as u8 + 1) as char;
 
         typewriter(&option.title, 150);
 
         execute!(std::io::stdout(), ResetColor).unwrap();
     }
+
+    execute!(
+        std::io::stdout(),
+        Print("\n\n(x)"),
+        SetForegroundColor(Color::Blue),
+        Print(" Exit"),
+        ResetColor,
+    )
+    .unwrap();
 }
