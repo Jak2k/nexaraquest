@@ -70,36 +70,11 @@ impl nte::scene::Scenes<MyScenes, MyContext> for MyScenes {
 }
 
 fn main() {
-    let scene: MyScenes = Scenes::new();
+    let mut scene: MyScenes = Scenes::new();
     let mut context: MyContext = MyContext {
         morning: true,
         heard_news: false,
     };
-    let mut scene = scene.get_current_scene(&mut context);
 
-    loop {
-        nte::render::render(&scene);
-
-        let input = nte::input_letter();
-
-        // convert the input to an index
-        let index = match input.as_str() {
-            "x" => std::process::exit(0),
-            "a" => 0,
-            "b" => 1,
-            "c" => 2,
-            "d" => 3,
-            "e" => 4,
-            "f" => 5,
-            _ => continue,
-        };
-
-        // check if the index is valid
-        if index >= scene.options.len() {
-            continue;
-        }
-
-        // get the target scene
-        scene = scene.options[index].target.get_current_scene(&mut context);
-    }
+    scene.run(&mut context);
 }
