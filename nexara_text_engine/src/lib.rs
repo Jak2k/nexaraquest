@@ -25,15 +25,13 @@ pub fn input_letter(options_len: usize) -> usize {
         loop {
             let key = crossterm::event::read().unwrap();
 
-            match key {
-                crossterm::event::Event::Key(crossterm::event::KeyEvent {
-                    code: crossterm::event::KeyCode::Char(c),
-                    ..
-                }) => {
-                    input.push(c);
-                    break;
-                }
-                _ => {}
+            if let crossterm::event::Event::Key(crossterm::event::KeyEvent {
+                code: crossterm::event::KeyCode::Char(c),
+                ..
+            }) = key
+            {
+                input.push(c);
+                break;
             }
         }
 
