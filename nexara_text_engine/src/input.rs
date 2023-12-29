@@ -1,23 +1,24 @@
-fn get_char() -> String {crossterm::terminal::enable_raw_mode().unwrap();
+fn get_char() -> String {
+    crossterm::terminal::enable_raw_mode().unwrap();
 
-        let mut input = String::new();
+    let mut input = String::new();
 
-        loop {
-            let key = crossterm::event::read().unwrap();
+    loop {
+        let key = crossterm::event::read().unwrap();
 
-            if let crossterm::event::Event::Key(crossterm::event::KeyEvent {
-                code: crossterm::event::KeyCode::Char(c),
-                ..
-            }) = key
-            {
-                input.push(c);
-                break;
-            }
+        if let crossterm::event::Event::Key(crossterm::event::KeyEvent {
+            code: crossterm::event::KeyCode::Char(c),
+            ..
+        }) = key
+        {
+            input.push(c);
+            break;
         }
+    }
 
-        crossterm::terminal::disable_raw_mode().unwrap();
+    crossterm::terminal::disable_raw_mode().unwrap();
 
-        input
+    input
 }
 
 pub fn input_letter(options_len: usize) -> usize {

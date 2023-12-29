@@ -1,5 +1,4 @@
-use nexara_text_engine as nte;
-use nte::scene::Scenes;
+use nexara_text_engine::prelude::*;
 
 enum MyScenes {
     Bedroom,
@@ -12,11 +11,12 @@ struct MyContext {
     heard_news: bool,
 }
 
-impl nte::scene::Scenes<MyScenes, MyContext> for MyScenes {
-    fn get_current_scene(&self, context: &mut MyContext) -> nte::scene::Scene<MyScenes> {
-        use nte::scene::Option;
-        use nte::scene::Scene;
-        match self {
+scenify!(
+    MyScenes,
+    MyContext,
+    MyScenes::Bedroom,
+    |this: &MyScenes, context: &mut MyContext| {
+        match this {
             MyScenes::Bedroom => Scene {
                 location: "Bedroom".to_string(),
                 text: match context.morning {
@@ -63,18 +63,14 @@ impl nte::scene::Scenes<MyScenes, MyContext> for MyScenes {
             },
         }
     }
-
-    fn new() -> Self {
-        MyScenes::Bedroom
-    }
-}
+);
 
 fn main() {
-    let mut scene: MyScenes = Scenes::new();
-    let mut context: MyContext = MyContext {
-        morning: true,
-        heard_news: false,
-    };
-
-    scene.run(&mut context);
+    run_scene!(
+        MyScenes,
+        MyContext {
+            morning: true,
+            heard_news: false
+        }
+    );
 }
