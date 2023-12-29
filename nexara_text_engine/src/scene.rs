@@ -1,16 +1,16 @@
-pub struct Scene<EnumOfScenes> {
+pub struct Scene<ScenesData> {
     pub location: String,
     pub text: String,
-    pub options: Vec<Option<EnumOfScenes>>,
+    pub options: Vec<Option<ScenesData>>,
 }
 
-pub struct Option<EnumOfScenes> {
+pub struct Option<ScenesData> {
     pub title: String,
-    pub target: EnumOfScenes,
+    pub target: ScenesData,
 }
 
-pub trait Scenes<EnumOfScenes: Scenes<EnumOfScenes, Context>, Context> {
-    fn get_current_scene(&self, context: &mut Context) -> Scene<EnumOfScenes>;
+pub trait Scenes<ScenesData: Scenes<ScenesData, Context>, Context> {
+    fn get_current_scene(&self, context: &mut Context) -> Scene<ScenesData>;
     fn new() -> Self;
     fn run(&mut self, context: &mut Context) {
         let mut scene = self.get_current_scene(context);
