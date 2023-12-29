@@ -12,8 +12,62 @@ fn typewriter(text: &str, max_delay: u64) {
     }
 }
 
+fn render_location(location: &str) {
+    // calculate the location indent (centered) using the width of the terminal
+    let mut location_indent =
+        (crossterm::terminal::size().unwrap().0 as i32 - location.len() as i32) / 2;
+
+    if location_indent < 0 {
+        location_indent = 0;
+    }
+
+    // Print the location
+    execute!(
+        std::io::stdout(),
+        SetForegroundColor(Color::Blue),
+        // indent the location
+        Print(" ".repeat(location_indent as usize)),
+        Print(location),
+        ResetColor,
+        Print("\n\n"),
+    )
+    .unwrap();
+}
+
+fn render_options<T>(options: &Vec<crate::scene::Option<T>>) {
+    execute!(std::io::stdout(), Print("\n")).unwrap();
+
+    let mut next_option = 'A';
+
+    for option in options {
+        execute!(
+            std::io::stdout(),
+            Print("\n("),
+            Print(next_option),
+            Print(") "),
+            SetForegroundColor(Color::Blue),
+        )
+        .unwrap();
+
+        next_option = (next_option as u8 + 1) as char;
+
+        typewriter(&option.title, 150);
+
+        execute!(std::io::stdout(), ResetColor).unwrap();
+    }
+
+    execute!(
+        std::io::stdout(),
+        Print("\n\n(x)"),
+        SetForegroundColor(Color::Blue),
+        Print(" Exit"),
+        ResetColor,
+    )
+    .unwrap();
+}
+
 pub fn render<T>(scene: &crate::scene::Scene<T>) {
-    // ASCII art how the screen should look like
+    // ASCII art how the screen should look like this (the lines are not part of the output):
     /*
 
     +---------------------------------------+
@@ -40,58 +94,12 @@ pub fn render<T>(scene: &crate::scene::Scene<T>) {
 
     execute!(std::io::stdout(), crossterm::cursor::MoveTo(0, 0)).unwrap();
 
-    // calculate the location indent (centered) using the width of the terminal
-    let mut location_indent =
-        (crossterm::terminal::size().unwrap().0 as i32 - scene.location.len() as i32) / 2;
-
-    if location_indent < 0 {
-        location_indent = 0;
-    }
-
     // Print the location
-    execute!(
-        std::io::stdout(),
-        SetForegroundColor(Color::Blue),
-        // indent the location
-        Print(" ".repeat(location_indent as usize)),
-        Print(scene.location.clone()),
-        ResetColor,
-        Print("\n\n"),
-    )
-    .unwrap();
+    render_location(&scene.location);
 
     // Print the text with animation
     typewriter(&scene.text, 150);
 
     // Print the options
-
-    execute!(std::io::stdout(), Print("\n")).unwrap();
-
-    let mut next_option = 'A';
-
-    for option in &scene.options {
-        execute!(
-            std::io::stdout(),
-            Print("\n("),
-            Print(next_option),
-            Print(") "),
-            SetForegroundColor(Color::Blue),
-        )
-        .unwrap();
-
-        next_option = (next_option as u8 + 1) as char;
-
-        typewriter(&option.title, 150);
-
-        execute!(std::io::stdout(), ResetColor).unwrap();
-    }
-
-    execute!(
-        std::io::stdout(),
-        Print("\n\n(x)"),
-        SetForegroundColor(Color::Blue),
-        Print(" Exit"),
-        ResetColor,
-    )
-    .unwrap();
+    render_options(&scene.options);
 }
