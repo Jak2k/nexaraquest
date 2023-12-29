@@ -13,6 +13,7 @@ The game will be text based and will be written in Rust. A user has to use the t
 Nexara Text Engine is a game engine for text based games. You basicly create 2 enums or structs and stick it into two macros:
 
 - `scenify!` - This macro creates a scene from your data structures and a function that calculates what scene can be gone to next.
+- `run_scene!` - This macro runs the start scene and allows the user to navigate.
 
 ```rust
 use nexara_text_engine::prelude::*; // Import all the necessary stuff
@@ -84,7 +85,7 @@ scenify!(
 );
 
 fn main() {
-    run_scene!( // Just sugar for running the scene.
+    run_scene!( // Just sugar for running the start scene.
         MyScenes,
         MyContext {
             morning: true,
