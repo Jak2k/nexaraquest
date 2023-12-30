@@ -107,6 +107,8 @@ name = "nexara_quest"
 version = "0.1.0"
 dependencies = [
  "nexara_text_engine",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
