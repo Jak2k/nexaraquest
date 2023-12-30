@@ -27,6 +27,7 @@ game!(
                     target: MyScenes::Kitchen,
                 }],
             },
+
             MyScenes::Kitchen => Scene {
                 location: "Kitchen".to_string(),
                 text: match context.heard_news {

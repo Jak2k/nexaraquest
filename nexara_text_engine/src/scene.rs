@@ -9,7 +9,11 @@ pub struct Option<ScenesData> {
     pub target: ScenesData,
 }
 
-pub trait Scenes<ScenesData: Scenes<ScenesData, Context>, Context> {
+pub trait Scenes<
+    ScenesData: Scenes<ScenesData, Context> + serde::Serialize + for<'a> serde::Deserialize<'a> + Clone,
+    Context: serde::Serialize + for<'b> serde::Deserialize<'b> + Clone,
+>
+{
     fn get_current_scene(&self, context: &mut Context) -> Scene<ScenesData>;
     fn new() -> Self;
     fn run(&mut self, context: &mut Context) {
