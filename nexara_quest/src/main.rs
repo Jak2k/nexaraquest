@@ -57,5 +57,10 @@ game!(
                 }],
             },
         }
-    }
+    },
+    MyScenes::Bedroom,
+    MyContext {
+        morning: true,
+        heard_news: false,
+    },
 );
