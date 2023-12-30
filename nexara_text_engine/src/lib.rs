@@ -20,7 +20,9 @@ macro_rules! game {
         struct $struct_name:ident {
             $($field:ident: $type:ty),* $(,)?
         },
-        $body:expr
+        $body:expr,
+        $initial_scene:expr,
+        $initial_context:expr,
     ) => {
         enum $enum_name {
             $($variant),*
@@ -37,7 +39,7 @@ macro_rules! game {
             }
 
             fn new() -> Self {
-                $enum_name::Bedroom
+                $initial_scene
             }
 
             fn run(&mut self, context: &mut $struct_name) {
@@ -55,11 +57,8 @@ macro_rules! game {
         }
 
         fn main() {
-            let mut scenes = MyScenes::Bedroom;
-            let mut context = MyContext {
-                morning: true,
-                heard_news: false,
-            };
+            let mut scenes = $enum_name::new();
+            let mut context = $initial_context;
 
             scenes.run(&mut context);
         }
