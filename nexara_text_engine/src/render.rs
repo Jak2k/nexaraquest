@@ -98,7 +98,7 @@ pub fn render<T>(scene: &crate::scene::Scene<T>) {
     render_location(&scene.location);
 
     // Print the text with animation
-    typewriter(&scene.text, 150);
+    typewriter(&scene.text, 50);
 
     // Print the options
     render_options(&scene.options);
