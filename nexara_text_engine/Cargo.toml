@@ -3,7 +3,7 @@ name = "nexara_text_engine"
 version = "0.1.0"
 edition = "2021"
 description = "A game engine for text-based games."
-license = "AGPL"
+license = "AGPL-3.0-only"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
