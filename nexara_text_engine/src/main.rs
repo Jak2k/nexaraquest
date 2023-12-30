@@ -1,20 +1,15 @@
 use nexara_text_engine::prelude::*;
 
-enum MyScenes {
-    Bedroom,
-    Kitchen,
-    School,
-}
-
-struct MyContext {
-    morning: bool,
-    heard_news: bool,
-}
-
-scenify!(
-    MyScenes,
-    MyContext,
-    MyScenes::Bedroom,
+game!(
+    enum MyScenes {
+        Bedroom,
+        Kitchen,
+        School,
+    },
+    struct MyContext {
+        morning: bool,
+        heard_news: bool,
+    },
     |this: &MyScenes, context: &mut MyContext| {
         match this {
             MyScenes::Bedroom => Scene {
@@ -64,13 +59,3 @@ scenify!(
         }
     }
 );
-
-fn main() {
-    run_scene!(
-        MyScenes,
-        MyContext {
-            morning: true,
-            heard_news: false
-        }
-    );
-}
