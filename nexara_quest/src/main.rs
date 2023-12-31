@@ -5,6 +5,7 @@ use nexara_text_engine::prelude::*;
 enum Superpower {
     None,
     Telekinesis,
+    FireBending,
 }
 
 game!(
@@ -72,7 +73,9 @@ As the subway car erupts in applause, you look around in amazement, finally noti
                     }
                 ],
             }},
-            MyScenes::FirstMorning_CarDad => Scene {
+            MyScenes::FirstMorning_CarDad => {
+                context.superpower = Superpower::FireBending;
+                Scene {
                 location: "Nexara City > Highway > Dad's Car".to_string(),
                 text: r#"You decided to ask: "Dad, mind giving me a ride to school today?" Your dad, ever the reliable chauffeur, agrees, and you find yourself cruising down the highway. However, the usual commute takes an unexpected turn as chaos unfolds on the road.
 
@@ -89,7 +92,7 @@ It's only when your dad exclaims, "Wow. When did you get that superpower?" that 
                         target: MyScenes::FirstMorning_School,
                     }
                 ],
-            },
+            }},
             MyScenes::FirstMorning_CarMom => todo!(),
             MyScenes::FirstMorning_School => todo!(),
             MyScenes::FirstMorning_AttackSchool => todo!(),
