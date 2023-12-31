@@ -93,7 +93,18 @@ It's only when your dad exclaims, "Wow. When did you get that superpower?" that 
                     }
                 ],
             }},
-            MyScenes::FirstMorning_CarMom => todo!(),
+            MyScenes::FirstMorning_CarMom => Scene {
+                location: "Nexara City > Highway > Mom's Car".to_string(),
+                text: r#"You decided to ask: "Mom, mind giving me a ride to school today?" Your mom, preoccupied with a phone call, gives a distracted nod of approval, and you find yourself navigating the city streets. The journey proceeds without any unusual incidents, and as you reach the school, your mom bids you farewell with a quick, absentminded "Have a good day."
+
+Exiting the car, you wonder if today will be as uneventful as the drive to school."#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Enter the school building".to_string(),
+                        target: MyScenes::FirstMorning_AttackSchool,
+                    }
+                ],
+            },
             MyScenes::FirstMorning_School => todo!(),
             MyScenes::FirstMorning_AttackSchool => todo!(),
         }
