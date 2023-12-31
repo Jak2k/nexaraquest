@@ -14,6 +14,7 @@ game!(
         FirstMorning_Subway,
         FirstMorning_CarDad,
         FirstMorning_CarMom,
+        FirstMorning_AttackSchool,
         FirstMorning_School,
     },
     struct MyContext {
@@ -64,11 +65,34 @@ One of them, with a menacing glint in their eye, summons knives and begins threa
 Panic sets in as the robbers demand money, and your heart races when a knife is pointed in your direction. In that moment, an unexpected surge of power courses through you. Without consciously realizing it, you find yourself manipulating the knife with an invisible force.The blade spins mid-air, catching the would-be assailant off guard, causing him to stagger back in pain.
 
 As the subway car erupts in applause, you look around in amazement, finally noticing the newfound ability within you. The passengers, once terror-stricken, now thank you for your courageous intervention. The atmosphere shifts, and the robbers, realizing they've met their match, hastily retreat as the subway continues its journey through the city."#.to_string(),
-                options: vec![],
+                options: vec![
+                    Option {
+                        title: "Continue to school".to_string(),
+                        target: MyScenes::FirstMorning_School,
+                    }
+                ],
             }},
-            MyScenes::FirstMorning_CarDad => todo!(),
+            MyScenes::FirstMorning_CarDad => Scene {
+                location: "Nexara City > Highway > Dad's Car".to_string(),
+                text: r#"You decided to ask: "Dad, mind giving me a ride to school today?" Your dad, ever the reliable chauffeur, agrees, and you find yourself cruising down the highway. However, the usual commute takes an unexpected turn as chaos unfolds on the road.
+
+ON THE HIGHWAY
+
+A group of individuals, armed with extraordinary abilities, interrupts the flow of traffic, creating a scene of panic. One of them shoots fire into the air, causing drivers to scramble. Another seamlessly transforms into different people, making it difficult to discern friend from foe.
+
+As the tension escalates, your instincts kick in. In a moment of urgency, you focus on the flames and, to your surprise, find yourself bending the fire away from the terrified drivers. The flames dance to your unspoken command, forming a protective barrier.
+
+It's only when your dad exclaims, "Wow. When did you get that superpower?" that you realize the extent of your newfound abilities."#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Continue to school".to_string(),
+                        target: MyScenes::FirstMorning_School,
+                    }
+                ],
+            },
             MyScenes::FirstMorning_CarMom => todo!(),
             MyScenes::FirstMorning_School => todo!(),
+            MyScenes::FirstMorning_AttackSchool => todo!(),
         }
     },
     MyScenes::FirstMorining_Bedroom,
