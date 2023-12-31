@@ -1,7 +1,11 @@
 #![allow(non_camel_case_types)]
 use nexara_text_engine::prelude::*;
 
-//ignoe case in the whole file
+#[derive(Clone, Serialize, Deserialize)]
+enum Superpower {
+    None,
+    Telekinesis,
+}
 
 game!(
     enum MyScenes {
@@ -12,8 +16,10 @@ game!(
         FirstMorning_CarMom,
         FirstMorning_School,
     },
-    struct MyContext {},
-    |this: &MyScenes, _context: &mut MyContext| {
+    struct MyContext {
+        superpower: Superpower,
+    },
+    |this: &MyScenes, context: &mut MyContext| {
         match this {
             MyScenes::FirstMorining_Bedroom => Scene {
                 location: "Nexara City > Home > Your Bedroom".to_string(),
@@ -47,12 +53,26 @@ Concern creeps in as you listen to the grim update. The subway doesn't sound so 
                     },
                 ],
             },
-            MyScenes::FirstMorning_Subway => todo!(),
+            MyScenes::FirstMorning_Subway => {
+                context.superpower = Superpower::Telekinesis;
+                Scene {
+                location: "Nexara City > Subway".to_string(),
+                text: r#"You decided to take the subway. The train rumbles along, and you find yourself immersed in the usual hustle and bustle of the city. However, things take a sudden turn as a trio of robbers enters your subway car.
+
+One of them, with a menacing glint in their eye, summons knives and begins threatening passengers. Another flexes bulging muscles, capable of bending metal with ease, while the third mysteriously warps through walls and obstacles.
+
+Panic sets in as the robbers demand money, and your heart races when a knife is pointed in your direction. In that moment, an unexpected surge of power courses through you. Without consciously realizing it, you find yourself manipulating the knife with an invisible force.The blade spins mid-air, catching the would-be assailant off guard, causing him to stagger back in pain.
+
+As the subway car erupts in applause, you look around in amazement, finally noticing the newfound ability within you. The passengers, once terror-stricken, now thank you for your courageous intervention. The atmosphere shifts, and the robbers, realizing they've met their match, hastily retreat as the subway continues its journey through the city."#.to_string(),
+                options: vec![],
+            }},
             MyScenes::FirstMorning_CarDad => todo!(),
             MyScenes::FirstMorning_CarMom => todo!(),
             MyScenes::FirstMorning_School => todo!(),
         }
     },
     MyScenes::FirstMorining_Bedroom,
-    MyContext {},
+    MyContext {
+        superpower: Superpower::None,
+    },
 );
