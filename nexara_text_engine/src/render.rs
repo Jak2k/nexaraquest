@@ -3,11 +3,13 @@ use crossterm::{
     style::{Color, Print, ResetColor, SetForegroundColor},
 };
 
-fn typewriter(text: &str, max_delay: u64) {
+fn typewriter(text: &str) {
+    const MAX_DELAY: u64 = 50;
+
     for c in text.chars() {
         execute!(std::io::stdout(), Print(c)).unwrap();
         std::thread::sleep(std::time::Duration::from_millis(
-            rand::random::<u64>() % max_delay,
+            rand::random::<u64>() % MAX_DELAY,
         ));
     }
 }
@@ -40,6 +42,8 @@ fn render_options<T>(options: &Vec<crate::scene::Option<T>>) {
     let mut next_option = 'A';
 
     for option in options {
+        std::thread::sleep(std::time::Duration::from_millis(200));
+
         execute!(
             std::io::stdout(),
             Print("\n("),
@@ -51,7 +55,7 @@ fn render_options<T>(options: &Vec<crate::scene::Option<T>>) {
 
         next_option = (next_option as u8 + 1) as char;
 
-        typewriter(&option.title, 150);
+        typewriter(&option.title);
 
         execute!(std::io::stdout(), ResetColor).unwrap();
     }
@@ -98,7 +102,7 @@ pub fn render<T>(scene: &crate::scene::Scene<T>) {
     render_location(&scene.location);
 
     // Print the text with animation
-    typewriter(&scene.text, 50);
+    typewriter(&scene.text);
 
     // Print the options
     render_options(&scene.options);

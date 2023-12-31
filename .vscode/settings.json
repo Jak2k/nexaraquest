@@ -1,5 +1,6 @@
 {
     "conventionalCommits.scopes": [
-        "nexara quest 1"
+        "nexara quest 1",
+        "engine"
     ]
 }
