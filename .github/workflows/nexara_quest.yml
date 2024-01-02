@@ -25,7 +25,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/nexara_quest_amd64
+            nexara_quest/target/release/nexara_quest_amd64
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -50,7 +50,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          files: target/release/nexara_quest.exe
+          files: nexara_quest/target/release/nexara_quest.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -77,6 +77,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            target/release/nexara_quest_darwin
+            nexara_quest/target/release/nexara_quest_darwin
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
