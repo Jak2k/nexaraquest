@@ -21,7 +21,7 @@ fn get_char() -> String {
     input
 }
 
-pub fn input_letter(options_len: usize) -> usize {
+#[must_use] pub fn input_letter(options_len: usize) -> usize {
     loop {
         let input = get_char();
 
