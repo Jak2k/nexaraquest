@@ -23,7 +23,7 @@ fn get_char() -> Result<String> {
     Ok(input)
 }
 
-#[must_use] pub fn input_letter(options_len: usize) -> Result<usize> {
+pub fn input_letter(options_len: usize) -> Result<usize> {
     loop {
         let input = get_char()?;
 
