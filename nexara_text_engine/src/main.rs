@@ -1,4 +1,4 @@
-#![allow(clippy::match_bool)]
+#![allow(clippy::match_bool, clippy::missing_errors_doc)]
 use nexara_text_engine::prelude::*;
 
 game!(
