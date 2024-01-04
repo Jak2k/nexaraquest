@@ -24,7 +24,7 @@ pub trait Scenes<
         loop {
             crate::render::render(&scene)?;
 
-            let index = crate::input::input_letter(scene.options.len())?;
+            let index = crate::input::letter(scene.options.len())?;
 
             // get the target scene
             scene = scene.options[index].target.get_current_scene(context)?;

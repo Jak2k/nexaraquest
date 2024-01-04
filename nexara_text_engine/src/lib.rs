@@ -62,7 +62,7 @@ macro_rules! game {
 
                     nexara_text_engine::render::render(&scene)?;
 
-                    let index =  nexara_text_engine::input::input_letter(scene.options.len())?;
+                    let index =  nexara_text_engine::input::letter(scene.options.len())?;
 
                     old_context = context.clone();
 

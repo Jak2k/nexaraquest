@@ -21,7 +21,7 @@ fn typewriter(text: &str) -> Result<()> {
 fn render_location(location: &str) -> Result<()> {
     // calculate the location indent (centered) using the width of the terminal
     let mut location_indent =
-        (i32::from(crossterm::terminal::size()?.0) - location.len() as i32) / 2;
+        (i32::from(crossterm::terminal::size()?.0) - i32::try_from(location.len())?) / 2;
 
     if location_indent < 0 {
         location_indent = 0;
