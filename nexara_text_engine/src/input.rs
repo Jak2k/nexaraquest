@@ -1,10 +1,12 @@
-fn get_char() -> String {
-    crossterm::terminal::enable_raw_mode().unwrap();
+use color_eyre::Result;
+
+fn get_char() -> Result<String> {
+    crossterm::terminal::enable_raw_mode()?;
 
     let mut input = String::new();
 
     loop {
-        let key = crossterm::event::read().unwrap();
+        let key = crossterm::event::read()?;
 
         if let crossterm::event::Event::Key(crossterm::event::KeyEvent {
             code: crossterm::event::KeyCode::Char(c),
@@ -16,14 +18,14 @@ fn get_char() -> String {
         }
     }
 
-    crossterm::terminal::disable_raw_mode().unwrap();
+    crossterm::terminal::disable_raw_mode()?;
 
-    input
+    Ok(input)
 }
 
-#[must_use] pub fn input_letter(options_len: usize) -> usize {
+#[must_use] pub fn input_letter(options_len: usize) -> Result<usize> {
     loop {
-        let input = get_char();
+        let input = get_char()?;
 
         let index = match input.as_str() {
             "x" => std::process::exit(0),
@@ -42,6 +44,6 @@ fn get_char() -> String {
             continue;
         }
 
-        return index;
+        return Ok(index);
     }
 }
