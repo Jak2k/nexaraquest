@@ -89,7 +89,7 @@ macro_rules! game {
                 let (scenes_, context_) = serde_json::from_reader(file).unwrap();
                 scenes = scenes_;
                 context = context_;
-            }
+            };
 
             scenes.run(&mut context)
         }

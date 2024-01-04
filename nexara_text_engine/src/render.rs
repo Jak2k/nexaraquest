@@ -32,6 +32,7 @@ fn render_location(location: &str) -> Result<()> {
         std::io::stdout(),
         SetForegroundColor(Color::Blue),
         // indent the location
+        #[allow(clippy::cast_sign_loss)]
         Print(" ".repeat(location_indent as usize)),
         Print(location),
         ResetColor,
