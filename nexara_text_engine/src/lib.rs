@@ -10,6 +10,7 @@ pub mod prelude {
     pub use crate::scene::{Option, Scene, Scenes};
     pub use crate::scenify;
     pub use serde::{Deserialize, Serialize};
+    pub use color_eyre::Result;
 }
 
 #[macro_export]
@@ -37,17 +38,17 @@ macro_rules! game {
 
         impl Scenes<$enum_name, $struct_name> for $enum_name {
 
-            fn get_current_scene(&self, context: &mut $struct_name) -> Scene<$enum_name> {
-                $body(self, context)
+            fn get_current_scene(&self, context: &mut $struct_name) -> Result<Scene<$enum_name>> {
+                Ok($body(self, context))
             }
 
             fn new() -> Self {
                 $initial_scene
             }
 
-            fn run(&mut self, context: &mut $struct_name) {
+            fn run(&mut self, context: &mut $struct_name)-> Result<()> {
                 let mut old_context = context.clone();
-                let mut scene = self.get_current_scene(context);
+                let mut scene = self.get_current_scene(context)?;
 
                 {
                     use std::io::Write;
@@ -59,7 +60,7 @@ macro_rules! game {
                 loop {
 
 
-                    nexara_text_engine::render::render(&scene);
+                    nexara_text_engine::render::render(&scene)?;
 
                     let index =  nexara_text_engine::input::input_letter(scene.options.len());
 
@@ -67,7 +68,7 @@ macro_rules! game {
 
                     // get the target scene
                     let target = scene.options[index].target.clone();
-                    scene = target.get_current_scene(context);
+                    scene = target.get_current_scene(context)?;
 
                     use std::io::Write;
                     let mut file = std::fs::File::create("save.json").unwrap();
@@ -77,7 +78,7 @@ macro_rules! game {
             }
         }
 
-        fn main() {
+        fn main() -> Result<()> {
             let mut scenes = $enum_name::new();
             let mut context = $initial_context;
 
@@ -90,7 +91,7 @@ macro_rules! game {
                 context = context_;
             }
 
-            scenes.run(&mut context);
+            scenes.run(&mut context)
         }
     };
 }

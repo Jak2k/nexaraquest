@@ -3,21 +3,25 @@ use crossterm::{
     style::{Color, Print, ResetColor, SetForegroundColor},
 };
 
-fn typewriter(text: &str) {
+use color_eyre::Result;
+
+fn typewriter(text: &str) -> Result<()> {
     const MAX_DELAY: u64 = 50;
 
     for c in text.chars() {
-        execute!(std::io::stdout(), Print(c)).unwrap();
+        execute!(std::io::stdout(), Print(c))?;
         std::thread::sleep(std::time::Duration::from_millis(
             rand::random::<u64>() % MAX_DELAY,
         ));
     }
+
+    Ok(())
 }
 
-fn render_location(location: &str) {
+fn render_location(location: &str) -> Result<()> {
     // calculate the location indent (centered) using the width of the terminal
     let mut location_indent =
-        (i32::from(crossterm::terminal::size().unwrap().0) - location.len() as i32) / 2;
+        (i32::from(crossterm::terminal::size()?.0) - location.len() as i32) / 2;
 
     if location_indent < 0 {
         location_indent = 0;
@@ -33,11 +37,13 @@ fn render_location(location: &str) {
         ResetColor,
         Print("\n\n"),
     )
-    .unwrap();
+    ?;
+
+    Ok(())
 }
 
-fn render_options<T>(options: &Vec<crate::scene::Option<T>>) {
-    execute!(std::io::stdout(), Print("\n")).unwrap();
+fn render_options<T>(options: &Vec<crate::scene::Option<T>>) -> Result<()> {
+    execute!(std::io::stdout(), Print("\n"))?;
 
     let mut next_option = 'A';
 
@@ -51,13 +57,13 @@ fn render_options<T>(options: &Vec<crate::scene::Option<T>>) {
             Print(") "),
             SetForegroundColor(Color::Blue),
         )
-        .unwrap();
+        ?;
 
         next_option = (next_option as u8 + 1) as char;
 
-        typewriter(&option.title);
+        typewriter(&option.title)?;
 
-        execute!(std::io::stdout(), ResetColor).unwrap();
+        execute!(std::io::stdout(), ResetColor)?;
     }
 
     execute!(
@@ -67,10 +73,12 @@ fn render_options<T>(options: &Vec<crate::scene::Option<T>>) {
         Print(" Exit"),
         ResetColor,
     )
-    .unwrap();
+    ?;
+
+    Ok(())
 }
 
-pub fn render<T>(scene: &crate::scene::Scene<T>) {
+pub fn render<T>(scene: &crate::scene::Scene<T>) -> Result<()> {
     // ASCII art how the screen should look like this (the lines are not part of the output):
     /*
 
@@ -94,16 +102,18 @@ pub fn render<T>(scene: &crate::scene::Scene<T>) {
         std::io::stdout(),
         crossterm::terminal::Clear(crossterm::terminal::ClearType::All)
     )
-    .unwrap();
+    ?;
 
-    execute!(std::io::stdout(), crossterm::cursor::MoveTo(0, 0)).unwrap();
+    execute!(std::io::stdout(), crossterm::cursor::MoveTo(0, 0))?;
 
     // Print the location
-    render_location(&scene.location);
+    render_location(&scene.location)?;
 
     // Print the text with animation
-    typewriter(&scene.text);
+    typewriter(&scene.text)?;
 
     // Print the options
-    render_options(&scene.options);
+    render_options(&scene.options)?;
+
+    Ok(())
 }

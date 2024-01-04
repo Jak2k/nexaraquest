@@ -1,3 +1,5 @@
+use color_eyre::Result;
+
 pub struct Scene<ScenesData> {
     pub location: String,
     pub text: String,
@@ -14,18 +16,18 @@ pub trait Scenes<
     Context: serde::Serialize + for<'b> serde::Deserialize<'b> + Clone,
 >
 {
-    fn get_current_scene(&self, context: &mut Context) -> Scene<ScenesData>;
+    fn get_current_scene(&self, context: &mut Context) -> Result<Scene<ScenesData>>;
     fn new() -> Self;
-    fn run(&mut self, context: &mut Context) {
-        let mut scene = self.get_current_scene(context);
+    fn run(&mut self, context: &mut Context) -> Result<()> {
+        let mut scene = self.get_current_scene(context)?;
 
         loop {
-            crate::render::render(&scene);
+            crate::render::render(&scene)?;
 
             let index = crate::input::input_letter(scene.options.len());
 
             // get the target scene
-            scene = scene.options[index].target.get_current_scene(context);
-        }
+            scene = scene.options[index].target.get_current_scene(context)?;
+        };
     }
 }
