@@ -1,5 +1,6 @@
 # Nexara Quest & Nexara Text Engine
 
+An older version of the game / game engine demo:
 [![asciicast](https://asciinema.org/a/j97MRngAlp1TuQPJ34y9gDwl1.svg)](https://asciinema.org/a/j97MRngAlp1TuQPJ34y9gDwl1)
 
 ## What is Nexara Quest?
@@ -7,6 +8,8 @@
 Nexara Quest will be a game about a teenager who lives in the city Nexara. He/her/they discovers their superpowers and has to use them to defend against people who want to use their powers for evil.
 
 The game will be text based and will be written in Rust. A user has to use the terminal to play the game. (It's not that hard, I promise.)
+
+[Download from releases](https://github.com/Jak2k/nexaraquest/releases/).
 
 ## What is Nexara Text Engine?
 
