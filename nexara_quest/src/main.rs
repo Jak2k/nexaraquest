@@ -8,6 +8,10 @@ enum Superpower {
     FireBending,
 }
 
+const COME_BACK_LATER: &str = r#"This scene is not written yet. Watch out for an update.
+
+https://github.com/Jak2k/nexaraquest"#;
+
 game!(
     enum MyScenes {
         FirstMorining_Bedroom,
@@ -15,8 +19,15 @@ game!(
         FirstMorning_Subway,
         FirstMorning_CarDad,
         FirstMorning_CarMom,
-        FirstMorning_AttackSchool,
+        FirstMorning_SchoolNoAttack, // Leads to ClassRoom where people attack
         FirstMorning_School,
+        FirstMorning_School_PrincipalsOffice,
+        FirstMorning_ClassRoom,
+        FirstMorning_ClassRoom_Defend,
+
+        NewAtRadiantOrder,
+
+        KiddnapedByShadowSyndicate,
     },
     struct MyContext {
         superpower: Superpower,
@@ -101,12 +112,88 @@ Exiting the car, you wonder if today will be as uneventful as the drive to schoo
                 options: vec![
                     Option {
                         title: "Enter the school building".to_string(),
-                        target: MyScenes::FirstMorning_AttackSchool,
+                        target: MyScenes::FirstMorning_SchoolNoAttack,
                     }
                 ],
             },
-            MyScenes::FirstMorning_School => todo!(),
-            MyScenes::FirstMorning_AttackSchool => todo!(),
+            MyScenes::FirstMorning_School => Scene {
+                location: "Nexara City > School".to_string(),
+                text: r#"Arriving at school, the mundane routine of classes looms ahead, but boredom quickly dissipates when the secretary of the principal approaches you with an unexpected message.
+
+"Two police officers are waiting to speak with you regarding the incident on your way to school," she says, her tone serious. Curiosity mingled with a hint of nervousness fills the air as you follow her to the principal's office, wondering what this unexpected turn of events might entail."#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Enter the principal's office".to_string(),
+                        target: MyScenes::FirstMorning_School_PrincipalsOffice,
+                    }
+                ],
+            },
+            MyScenes::FirstMorning_School_PrincipalsOffice => Scene {
+                location: "Nexara City > School > Principal's Office".to_string(),
+                text: r#"The so-called cops ask the principal to give you some privacy, and as soon as the door clicks shut, they drop the act. "We ain't really cops; we're from the 'Radiant Order.' We're the good guys, you know? Fighting against the people who rob and injure the people all over the city and all that jazz."
+
+They lean in, keeping it hush-hush. "Look, after what you did on your way here, we reckon you've got some serious potential. We're short on hands, and we could use someone like you. Wanna join the fight against the 'Shadow Syndicate'? Or, you know, you can just head back to class if you're not feeling it. Your call.""#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Join the Radiant Order".to_string(),
+                        target: MyScenes::NewAtRadiantOrder,
+                    },
+                    Option {
+                        title: "Go back to class".to_string(),
+                        target: MyScenes::FirstMorning_ClassRoom,
+                    }
+                ],
+            },
+            MyScenes::FirstMorning_SchoolNoAttack => Scene {
+                location: "Nexara City > School".to_string(),
+                text: r#"After you enter the school, the buzz of conversations about the recent attacks fills the hallway. You overhear snippets of worried discussions as students share their thoughts on the unsettling news. The atmosphere is charged with a mix of curiosity and apprehension.
+
+Navigating through the crowd, you catch glimpses of concerned faces and hushed whispers about the escalating situation in the city. It seems the events from the morning have stirred a collective unease among your peers."#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Enter the classroom".to_string(),
+                        target: MyScenes::FirstMorning_ClassRoom,
+                    }
+                ]
+            },
+            MyScenes::FirstMorning_ClassRoom => Scene {
+                location: "Nexara City > School > Classroom".to_string(),
+                text: r#"A few minutes later, your math teacher enters the room and starts droning on about the Pythagorean theorem, the monotony of the lesson lulling you into a sense of normalcy. Just as you resign yourself to the tedium, the classroom is abruptly thrust into chaos.
+
+Without warning, a man warps into the room, brandishing a gun aimed directly at you. Simultaneously, another intruder, appearing through the door, conjures weapons out of thin air and points them menacingly at your startled classmates. The sudden intrusion disrupts the mundane routine, injecting an element of danger into the once mundane classroom.
+
+Adding to the surreal scene, a third attacker, a woman, crashes through the window, clutching a handful of grenades. The air grows tense as the unexpected assailants assert control over the classroom, leaving you and your classmates at the mercy of this bizarre and threatening situation.
+
+The man with the gun now wants you to go with him, his voice carrying a dangerous edge. "You're coming with us, kid. Don't try anything funny, or your classmates will be in for a nasty surprise.""#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Go with the man".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate,
+                    }
+                ],
+            },
+            MyScenes::FirstMorning_ClassRoom_Defend => Scene {
+                location: "Nexara City > School > Classroom".to_string(),
+                text: r#"You decide to defend yourself and your classmates, but you fail. The attackers shoot your best friend and the men shouts: "Come with us or we will kill everyone in this room!""#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Go with the man".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate,
+                    }
+                ]
+            },
+            MyScenes::NewAtRadiantOrder => Scene {
+                // TODO
+                location: "A Mystery".to_string(),
+                text: COME_BACK_LATER.to_string(),
+                options: vec![],
+            },
+            MyScenes::KiddnapedByShadowSyndicate => Scene {
+                // TODO
+                location: "A Mystery".to_string(),
+                text: COME_BACK_LATER.to_string(),
+                options: vec![],
+            },
         }
     },
     MyScenes::FirstMorining_Bedroom,
