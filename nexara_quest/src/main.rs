@@ -179,6 +179,10 @@ The man with the gun now wants you to go with him, his voice carrying a dangerou
                     Option {
                         title: "Go with the man".to_string(),
                         target: MyScenes::KiddnapedByShadowSyndicate,
+                    },
+                    Option {
+                        title: "Try to defend".to_string(),
+                        target: MyScenes::FirstMorning_ClassRoom_Defend,
                     }
                 ]
             },
