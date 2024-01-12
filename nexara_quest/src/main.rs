@@ -27,7 +27,12 @@ game!(
 
         NewAtRadiantOrder,
 
-        KiddnapedByShadowSyndicate,
+        KiddnapedByShadowSyndicate_Cell,
+        KiddnapedByShadowSyndicate_Cell_CallHelp,
+        KiddnapedByShadowSyndicate_Cell_Wait,
+        KiddnapedByShadowSyndicate_Interrogation,
+        KiddnapedByShadowSyndicate_Decline,
+        KiddnapedByShadowSyndicate_Accept,
     },
     struct MyContext {
         superpower: Superpower,
@@ -168,7 +173,7 @@ The man with the gun now wants you to go with him, his voice carrying a dangerou
                 options: vec![
                     Option {
                         title: "Go with the man".to_string(),
-                        target: MyScenes::KiddnapedByShadowSyndicate,
+                        target: MyScenes::KiddnapedByShadowSyndicate_Cell,
                     }
                 ],
             },
@@ -178,7 +183,7 @@ The man with the gun now wants you to go with him, his voice carrying a dangerou
                 options: vec![
                     Option {
                         title: "Go with the man".to_string(),
-                        target: MyScenes::KiddnapedByShadowSyndicate,
+                        target: MyScenes::KiddnapedByShadowSyndicate_Cell,
                     },
                     Option {
                         title: "Try to defend".to_string(),
@@ -192,12 +197,46 @@ The man with the gun now wants you to go with him, his voice carrying a dangerou
                 text: COME_BACK_LATER.to_string(),
                 options: vec![],
             },
-            MyScenes::KiddnapedByShadowSyndicate => Scene {
-                // TODO
-                location: "A Mystery".to_string(),
-                text: COME_BACK_LATER.to_string(),
-                options: vec![],
+            MyScenes::KiddnapedByShadowSyndicate_Cell => Scene {
+                location: "Nexara City > Shadow Syndicate Headquarter > Prison Cell".to_string(),
+                text: r#"You awaken in a dark, unfamiliar cell, the cold surroundings closing in. Fear grips you as you try to make sense of your surroundings. The air is heavy with uncertainty, and the absence of light intensifies the feeling of isolation. In the disorienting darkness, your senses strain, and every sound echoes, heightening the sense of vulnerability. The unknown looms, and anxiety tightens its grip as you grapple with the unsettling reality of your situation."#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Call for help".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate_Cell_CallHelp,
+                    },
+                    Option {
+                        title: "Wait".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate_Cell_Wait,
+                    },
+                ],
             },
+            MyScenes::KiddnapedByShadowSyndicate_Cell_CallHelp => Scene {
+                location: "Nexara City > Shadow Syndicate Headquarter > Prison Cell".to_string(),
+                text: r#""Hey, someone! Help!" you call out, your voice echoing in the dimness. Fear still clings to you, a palpable presence in the dark cell.
+
+
+Before long, the man from the classroom appears, a silhouette in the shadows. Without a word, he gestures for you to follow him, leading you out of the oppressive cell and into another room. "#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Follow him".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate_Interrogation,
+                    },
+                ],
+            },
+            MyScenes::KiddnapedByShadowSyndicate_Cell_Wait => Scene {
+                location: "Nexara City > Shadow Syndicate Headquarter > Prison Cell".to_string(),
+                text: r#"You wait in the dim cell, anxiety lingering in the air. After what feels like an eternity, the man from the classroom appears. Without uttering a word, he motions for you to follow him."#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Follow him".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate_Interrogation,
+                    },
+                ],
+            },
+            MyScenes::KiddnapedByShadowSyndicate_Interrogation => todo!(),
+            MyScenes::KiddnapedByShadowSyndicate_Decline => todo!(),
+            MyScenes::KiddnapedByShadowSyndicate_Accept => todo!(),
         }
     },
     MyScenes::FirstMorining_Bedroom,
