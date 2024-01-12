@@ -3,6 +3,11 @@ use color_eyre::Result;
 fn get_char() -> Result<String> {
     crossterm::terminal::enable_raw_mode()?;
 
+    // discard previous input by reading it all
+    while crossterm::event::poll(std::time::Duration::from_millis(1))? {
+        crossterm::event::read()?;
+    }
+    
     let mut input = String::new();
 
     loop {
