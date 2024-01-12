@@ -9,8 +9,8 @@ pub mod prelude {
     pub use crate::run_scene;
     pub use crate::scene::{Option, Scene, Scenes};
     pub use crate::scenify;
-    pub use serde::{Deserialize, Serialize};
     pub use color_eyre::Result;
+    pub use serde::{Deserialize, Serialize};
 }
 
 #[macro_export]
@@ -33,6 +33,7 @@ macro_rules! game {
 
         #[derive(Serialize, Deserialize, Clone)]
         struct $struct_name {
+            #[serde(default)]
             $($field: $type),*
         }
 
