@@ -8,12 +8,20 @@ enum Superpower {
     FireBending,
 }
 
+impl Default for Superpower {
+    fn default() -> Self {
+        Self::None
+    }
+}
+
 const COME_BACK_LATER: &str = r#"This scene is not written yet. Watch out for an update.
 
 https://github.com/Jak2k/nexaraquest"#;
 
 game!(
     enum MyScenes {
+        Special_Reset,
+
         FirstMorining_Bedroom,
         FirstMorning_Kitchen,
         FirstMorning_Subway,
@@ -39,6 +47,18 @@ game!(
     },
     |this: &MyScenes, context: &mut MyContext| {
         match this {
+            MyScenes::Special_Reset => {
+                // delete save.json
+                std::fs::remove_file("save.json").unwrap();
+
+                // print message
+                println!("");
+                println!("Game reseted.");
+                println!("To play again, start the game again.");
+
+                // exit
+                std::process::exit(0);
+            },
             MyScenes::FirstMorining_Bedroom => Scene {
                 location: "Nexara City > Home > Your Bedroom".to_string(),
                 text: "You wake up to the annoying buzz of your alarm, the relentless reminder that school is waiting. The warmth of your bed is tempting, but the clock's ticking, and you reluctantly drag yourself out from the cozy embrace of your blankets. Another day in the adventure called life, or, well, high school awaits. Time to face the world beyond the comfort of your bedroom.".to_string(),
@@ -174,6 +194,10 @@ The man with the gun now wants you to go with him, his voice carrying a dangerou
                     Option {
                         title: "Go with the man".to_string(),
                         target: MyScenes::KiddnapedByShadowSyndicate_Cell,
+                    },
+                    Option {
+                        title: "Try to defend".to_string(),
+                        target: MyScenes::FirstMorning_ClassRoom_Defend,
                     }
                 ],
             },
@@ -184,10 +208,6 @@ The man with the gun now wants you to go with him, his voice carrying a dangerou
                     Option {
                         title: "Go with the man".to_string(),
                         target: MyScenes::KiddnapedByShadowSyndicate_Cell,
-                    },
-                    Option {
-                        title: "Try to defend".to_string(),
-                        target: MyScenes::FirstMorning_ClassRoom_Defend,
                     }
                 ]
             },
@@ -234,9 +254,51 @@ Before long, the man from the classroom appears, a silhouette in the shadows. Wi
                     },
                 ],
             },
-            MyScenes::KiddnapedByShadowSyndicate_Interrogation => todo!(),
-            MyScenes::KiddnapedByShadowSyndicate_Decline => todo!(),
-            MyScenes::KiddnapedByShadowSyndicate_Accept => todo!(),
+            MyScenes::KiddnapedByShadowSyndicate_Interrogation => Scene {
+                location: "Nexara City > Shadow Syndicate Headquarter > Interrogation Room".to_string(),
+                text: r#"In a dimly lit interrogation room, the man from the Shadow Syndicate starts questioning you. His tone is cold and assertive as he begins to lay out their twisted perspective.
+
+"You see, kid, the world's a messed-up place. People in power, they don't care about the regular folks. We're just trying to level the playing field, using our powers to show them they can't control everything. It's about justice, in our own way."
+                
+He leans in, his gaze intense. "Joining us means being part of something bigger. We're not just thugs; we're fighting against a system that oppresses the weak. With your powers, you could make a real difference. Think about it. You want to be a pawn in their game, or do you want to stand on the right side of history?"
+                
+As he speaks, he paints a distorted picture of a world where those in power exploit the powerless, and the Shadow Syndicate sees themselves as vigilantes fighting for justice. The allure of rebellion, of challenging a corrupt system, is carefully woven into his words.
+                
+"The Radiant Order might try to paint themselves as heroes, but they're just maintaining a flawed status quo. We're breaking the chains, showing the world that individuals with powers can't be controlled. You could be a symbol, a force for change."
+                
+His arguments, while morally skewed, carry a strange charisma. The lines between right and wrong blur as he appeals to a sense of justice and rebellion, leaving you with a choice that seems more complex than it first appeared. The dim room becomes a battleground of ideologies, and have to decie: Do you want to join the Shadow Syndicate?"#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Refuse to join the Shadow Syndicate".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate_Decline,
+                    },
+                    Option {
+                        title: "Join the Shadow Syndicate".to_string(),
+                        target: MyScenes::KiddnapedByShadowSyndicate_Accept,
+                    },
+                ] },
+            MyScenes::KiddnapedByShadowSyndicate_Decline => Scene {
+                location: "Nexara City > Shadow Syndicate Headquarter > Interrogation Room".to_string(),
+                text: r#"You stand your ground, resolute in your refusal to join the Shadow Syndicate. The man's face contorts with frustration, and suddenly, he lifts you off the ground, pressing you against the cold, unforgiving wall of the dimly lit interrogation room.
+
+His voice, harsh and filled with venom, pierces the air. "You're making a big mistake, kid. You could've been part of something great."
+                
+In a shocking twist, he pulls out a gun, the metallic glint reflecting the dim light in the room. The gravity of the situation hits you, and fear surges through your veins. "Any last words?" he sneers, a sinister satisfaction in his eyes.
+                
+Without another word, he pulls the trigger, and the deafening sound of the gunshot echoes through the room. Pain sears through you, and darkness envelops your vision as the realization dawns — your journey, your choices, all cut short in a brutal and unexpected end. The room, witness to the tragic turn of events, remains silent, holding the weight of a life extinguished too soon."#.to_string(),
+                options: vec![
+                    Option {
+                        title: "Reset the game".to_string(),
+                        target: MyScenes::Special_Reset,
+                    },
+                ],
+            },
+            MyScenes::KiddnapedByShadowSyndicate_Accept => Scene {
+                // TODO
+                location: "A Mystery".to_string(),
+                text: COME_BACK_LATER.to_string(),
+                options: vec![],
+            }
         }
     },
     MyScenes::FirstMorining_Bedroom,
